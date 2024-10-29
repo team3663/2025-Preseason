@@ -13,6 +13,7 @@ import frc.robot.subsystems.shooter.Shooter;
 
 public class RobotContainer {
     private final Shooter shooter = new Shooter(new P2025ShooterIO(new TalonFX(1)));
+    private final Elevator elevator = new Elevator(new P2025ElevatorIO(new TalonFX(1)));
 
     public RobotContainer() {
         configureBindings();
@@ -23,7 +24,6 @@ public class RobotContainer {
                 Commands.waitUntil(shooter::atTargetVelocity),
                 shooter.withVelocity(Units.rotationsPerMinuteToRadiansPerSecond(1000.0)));
 
-        Commands.deadline(Commands.waitSeconds(1.0));
     }
 
     public Command getAutonomousCommand() {
