@@ -6,17 +6,18 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import edu.wpi.first.math.util.Units;
 
-public class P2025ElevatorIO {
+public class P2025ElevatorIO implements ElevatorIO {
     private final TalonFX motor;
 
     private final VoltageOut voltageRequest = new VoltageOut(0.0);
     private final VelocityVoltage velocityRequest = new VelocityVoltage(0.0);
     private final NeutralOut stopRequest = new NeutralOut();
-    private final AngleOut angleRequest = new AngleOut(0.0);
-    private final PositionOut positionRequest = new PositionOut(0.0);
 
-    public P2025ShooterIO(TalonFX motor) {
+    private final double elevatorMaxHeight = Units.feetToMeters(2);
+
+    public P2025ElevatorIO(TalonFX motor) {
         this.motor = motor;
 
         TalonFXConfiguration config = new TalonFXConfiguration();
@@ -30,13 +31,13 @@ public class P2025ElevatorIO {
     }
 
     @Override
-    public void updateInputs(ShooterInputs inputs) {
+    public void updateInputs(ElevatorInputs inputs) {
         inputs.currentVelocity = motor.getVelocity().getValueAsDouble();
         inputs.currentAppliedVoltage = motor.getMotorVoltage().getValueAsDouble();
         inputs.motorTemperature = motor.getDeviceTemp().getValueAsDouble();
         inputs.currentDraw = motor.getSupplyCurrent().getValueAsDouble();
-        inputs.currentAngle = motor.getAngle().getValueAsDouble();
-        // inputs.currentPosition = motor.getAngle().getValueAsDouble()
+        inputs.currentAngle = 0; // TODO make the UpdateInputs update the currentAngle
+        inputs.currentPosition = 0; // TODO make the UpdateInputs update the currentPosition
     }
 
     @Override
@@ -56,11 +57,13 @@ public class P2025ElevatorIO {
 
     @Override
     public void setTargetAngle(double angle) {
-        motor.setControl(angleRequest.withAngle(angle));
+//        motor.setControl() TODO set the target angle
     }
-    
+
     @Override
     public void setTargetPosition(double position) {
-        motor.setControl(positionRequest.withPosition(position));
+        // Make sure you can't enter anything greater than it's max position
+        position = Math.min(position, elevatorMaxHeight);
+//        motor.setControl(); TODO set the target position
     }
 }
