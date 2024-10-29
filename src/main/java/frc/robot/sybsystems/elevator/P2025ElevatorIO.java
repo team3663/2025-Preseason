@@ -7,16 +7,20 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 
-public class P2025ElevatorIO implements ElevatorIO{
+public class P2025ElevatorIO implements ElevatorIO {
+    // creates the TalonFX motor controller and sets the max position of the elevator
     private final TalonFX motor;
+    private final double maxPosition = Units.feetToMeters(2);
 
+    // creates the requests to the motor
     private final NeutralOut stopRequest = new NeutralOut();
     private final PositionVoltage positionRequest = new PositionVoltage(0);
 
-    private final double maxPosition = Units.feetToMeters(2);
 
     public P2025ElevatorIO(TalonFX motor){
         this.motor = motor;
+
+        // Configuring the motor rotational direction and PID
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         config.Slot0.kP = 1.0;
@@ -29,6 +33,7 @@ public class P2025ElevatorIO implements ElevatorIO{
 
     @Override
     public void updateInputs(ElevatorInputs inputs){
+        // updates the inputs from the Elevator Inputs class
         inputs.currentDraw = motor.getSupplyCurrent().getValueAsDouble();
         inputs.motorTemperature = motor.getDeviceTemp().getValueAsDouble();
         inputs.currentPosition = motor.getPosition().getValueAsDouble();
@@ -39,6 +44,8 @@ public class P2025ElevatorIO implements ElevatorIO{
 
     @Override
     public void setTargetPosition(double position) {
+        // Sends a request to the motor to set the position IF the position is less than or
+        // equal to the max position
         if (position <= maxPosition) {
             motor.setPosition((Angle) positionRequest.withPosition(position));
         }
