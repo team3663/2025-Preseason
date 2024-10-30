@@ -19,7 +19,7 @@ public class RobotContainer {
     // Create the shooter, elevator and xbox controller
     private final Shooter shooter = new Shooter(new P2025ShooterIO(new TalonFX(1)));
     private final Elevator elevator = new Elevator(new P2025ElevatorIO(new TalonFX(2)));
-    private final CommandXboxController driver_controller = new CommandXboxController(Constants.DRIVER_CONTROLLER_PORT);
+    private final CommandXboxController driverController = new CommandXboxController(Constants.DRIVER_CONTROLLER_PORT);
 
     public RobotContainer() {
         configureBindings();
@@ -27,18 +27,16 @@ public class RobotContainer {
 
     private void configureBindings() {
         // Button A will make the shooter run with a velocity until it reaches target velocity
-        driver_controller.a().onTrue(Commands.deadline(
+        driverController.a().onTrue(Commands.deadline(
                 Commands.waitUntil(shooter::atTargetVelocity),
                 shooter.withVelocity(Units.rotationsPerMinuteToRadiansPerSecond(1000.0))));
 
-        Commands.deadline(Commands.waitSeconds(1.0));
 
         // Button B will make the elevator go to a position until it reaches the target position
-        driver_controller.b().onTrue(Commands.deadline(
+        driverController.b().onTrue(Commands.deadline(
                 Commands.waitUntil(elevator::atTargetPosition),
                 elevator.toPosition(Units.inchesToMeters(0.25))));
 
-        Commands.deadline(Commands.waitSeconds(1.0));
 
 
 
