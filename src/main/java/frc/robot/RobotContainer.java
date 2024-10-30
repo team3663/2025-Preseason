@@ -37,9 +37,6 @@ public class RobotContainer {
                 Commands.waitUntil(elevator::atTargetPosition),
                 elevator.toPosition(Units.inchesToMeters(0.25))));
 
-
-
-
     }
 
     public Command getAutonomousCommand() {

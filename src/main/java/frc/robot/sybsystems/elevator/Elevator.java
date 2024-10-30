@@ -35,7 +35,6 @@ public class Elevator extends SubsystemBase {
     /**
      * Tells the elevator to move to positions and does not end
      */
-    //TODO - Ask if I need the either in this
     public Command followPosition(DoubleSupplier position) {
         return run(
                 () -> {
@@ -49,7 +48,6 @@ public class Elevator extends SubsystemBase {
     /**
      * Tells the elevator to move positions until it reaches the target position, then it ends
      */
-    //TODO - Ask Kaitlin why the lambda in front of target position makes it work
     public Command toPosition(double position) {
         return followPosition(() -> targetPosition).until(this::atTargetPosition);
     }
