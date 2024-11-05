@@ -38,8 +38,8 @@ public class Elevator extends SubsystemBase {
     public Command followPosition(DoubleSupplier position) {
         return run(
                 () -> {
-                    io.setTargetPosition(position.getAsDouble());
                     targetPosition = position.getAsDouble();
+                    io.setTargetPosition(position.getAsDouble());
                 }
         );
     }
@@ -49,6 +49,6 @@ public class Elevator extends SubsystemBase {
      * Tells the elevator to move positions until it reaches the target position, then it ends
      */
     public Command toPosition(double position) {
-        return followPosition(() -> targetPosition).until(this::atTargetPosition);
+        return followPosition(() -> position).until(this::atTargetPosition);
     }
 }
