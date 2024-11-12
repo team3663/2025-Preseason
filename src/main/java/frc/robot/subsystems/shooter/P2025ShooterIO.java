@@ -14,7 +14,6 @@ import javax.swing.text.Position;
 
 public class P2025ShooterIO implements ShooterIO {
     private final TalonFX motor;
-
     private final VoltageOut voltageRequest = new VoltageOut(0.0);
     private final VelocityVoltage velocityRequest = new VelocityVoltage(0.0);
     private final NeutralOut stopRequest = new NeutralOut();
@@ -25,12 +24,10 @@ public class P2025ShooterIO implements ShooterIO {
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-
         config.Slot0.kP = 0.1;
         config.Slot0.kI = 0.0;
         config.Slot0.kD = 0.0;
         config.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
-
 
         motor.getConfigurator().apply(config);
     }

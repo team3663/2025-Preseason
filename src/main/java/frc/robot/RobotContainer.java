@@ -18,7 +18,6 @@ import frc.robot.sybsystems.elevator.P2025ElevatorIO;
 
 public class RobotContainer {
     // Create the shooter, elevator and xbox controller
-
     private final Shooter shooter = new Shooter(new P2025ShooterIO(new TalonFX(0)));
     private final Elevator elevator = new Elevator(new P2025ElevatorIO(new TalonFX(1)));
     private final CommandXboxController driverController = new CommandXboxController(Constants.DRIVER_CONTROLLER_PORT);
@@ -56,9 +55,9 @@ public class RobotContainer {
         driverController.start().onTrue(shooter.resetRotations());
 
         // Left Trigger -> 0-5 Rotations
-        // TODO figure out if I want to slew here
         driverController.leftTrigger(0.5).whileTrue(shooter.followRotations(
-                () -> limit.calculate(Units.rotationsToRadians(5) * driverController.getLeftTriggerAxis())));
+                () -> limit.calculate(Units.rotationsToRadians(5) * driverController.getLeftTriggerAxis()))
+                .beforeStarting(()-> limit.reset(shooter.getVelocity())));
     }
 
     public Command getAutonomousCommand() {

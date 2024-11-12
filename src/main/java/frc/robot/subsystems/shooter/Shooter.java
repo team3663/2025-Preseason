@@ -26,7 +26,6 @@ public class Shooter extends SubsystemBase {
         // Logger.processInputs("Shooter", inputs);
     }
 
-
     public double getVelocity() {
         return inputs.currentVelocity;
     }
@@ -52,6 +51,9 @@ public class Shooter extends SubsystemBase {
         );
     }
 
+    /**
+     * Stops the motor by running at 0 voltage
+     */
     public Command stop(){
         return runOnce(
                 io::stop
