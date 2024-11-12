@@ -22,6 +22,7 @@ public class P2025ShooterIO implements ShooterIO {
     public P2025ShooterIO(TalonFX motor) {
         this.motor = motor;
 
+        // configuring the motor
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         config.Slot0.kP = 0.1;
@@ -34,6 +35,7 @@ public class P2025ShooterIO implements ShooterIO {
 
     @Override
     public void updateInputs(ShooterInputs inputs) {
+        // updating the shooter inputs
         inputs.currentVelocity = motor.getVelocity().getValue().in(Units.RadiansPerSecond);
         inputs.currentAppliedVoltage = motor.getMotorVoltage().getValueAsDouble();
         inputs.motorTemperature = motor.getDeviceTemp().getValueAsDouble();
