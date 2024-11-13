@@ -22,7 +22,6 @@ public class RobotContainer {
     private final Elevator elevator = new Elevator(new P2025ElevatorIO(new TalonFX(1)));
     private final CommandXboxController driverController = new CommandXboxController(Constants.DRIVER_CONTROLLER_PORT);
     private final SlewRateLimiter limit = new SlewRateLimiter(Units.rotationsPerMinuteToRadiansPerSecond(100.0));
-    public int timesYPressed = 0;
     public RobotContainer() {
         configureBindings();
     }
@@ -40,7 +39,7 @@ public class RobotContainer {
 
         // Button Y -> Toggle between 0 and 50 rotations
         driverController.y().onTrue(
-                shooter.toggleRotations(timesYPressed).andThen(()-> timesYPressed += 1));
+                shooter.toggleRotations());
 
         // Right Trigger -> 0-4000 RPM
         // When the trigger is pressed more than the threshold, it first resets the

@@ -15,6 +15,7 @@ public class Shooter extends SubsystemBase {
 
     private double targetVelocity = 0.0;
     private double targetRotations = 0.0;
+    public double timesYPressed = 0;
 
     public Shooter(ShooterIO io) {
         this.io = io;
@@ -77,12 +78,14 @@ public class Shooter extends SubsystemBase {
      * button is pressed is even or odd
      *
      */
-    public Command toggleRotations(double timesPressed) {
-        if (timesPressed % 2 == 0) {
+    public Command toggleRotations() {
+        timesYPressed += 1.0;
+        if (timesYPressed % 2 != 0.0) {
             return runOnce(
                     () -> toRotations(Units.rotationsToRadians(50)));
         }
         else {
+
             return runOnce(
                     ()-> toRotations(Units.rotationsToRadians(0)));
         }
