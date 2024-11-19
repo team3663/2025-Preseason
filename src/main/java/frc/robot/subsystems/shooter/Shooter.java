@@ -76,24 +76,6 @@ public class Shooter extends SubsystemBase {
         );
     }
 
-    /** Toggles between running 50 rotations and 0 rotations based on if the number of times the
-     * button is pressed is even or odd
-     *
-     */
-    // TODO Figure out why this is broken
-    public Command toggleRotations() {
-        timesYPressed += 1.0;
-        if (timesYPressed % 2 != 0.0) {
-            return runOnce(
-                    () -> toRotations(Units.rotationsToRadians(50)));
-        }
-        else {
-
-            return runOnce(
-                    ()-> toRotations(Units.rotationsToRadians(0)));
-        }
-    }
-
     /** Tells the shooter to move a certain amount of rotations and then ends
      *
      */

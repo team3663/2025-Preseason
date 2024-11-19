@@ -15,6 +15,7 @@ public class P2025ShooterIO implements ShooterIO {
     private final VelocityVoltage velocityRequest = new VelocityVoltage(0.0).withSlot(0);
     private final NeutralOut stopRequest = new NeutralOut();
     //private final PositionVoltage positionRequest = new PositionVoltage(0.0).withSlot(1);
+    // Using Motionn magic to control position, rather than PID
     private final MotionMagicVoltage positionRequest = new MotionMagicVoltage(0.0).withSlot(1);
 
     public P2025ShooterIO(TalonFX motor) {
@@ -23,11 +24,13 @@ public class P2025ShooterIO implements ShooterIO {
         // configuring the motor
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        //Slot 0 PID for velocity
         config.Slot0.kP = 0.05;
         config.Slot0.kI = 0.0;
         config.Slot0.kD = 0.0;
         config.Slot0.kV = 0.115;
 
+        //Slot 1 PID/Motion Magic for position
         config.Slot1.kP = 0.5;
         config.Slot1.kI = 0.0;
         config.Slot1.kD = 0.0;
