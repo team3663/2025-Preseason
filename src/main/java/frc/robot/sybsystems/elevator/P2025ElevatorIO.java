@@ -4,6 +4,7 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
@@ -31,7 +32,7 @@ public class P2025ElevatorIO implements ElevatorIO {
         config.Slot0.kP = 1.0;
         config.Slot0.kD = 0.0;
         config.Slot0.kI = 0.0;
-
+        config.Slot0.GravityType = GravityTypeValue.Elevator_Static;
         motor.getConfigurator().apply(config);
 
     }

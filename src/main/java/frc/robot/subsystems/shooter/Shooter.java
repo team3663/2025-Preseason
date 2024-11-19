@@ -1,11 +1,13 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.DoubleSupplier;
 
+@Logged
 public class Shooter extends SubsystemBase {
     private static final double VELOCITY_THRESHOLD = Units.rotationsPerMinuteToRadiansPerSecond(100.0);
     private static final double ROTATIONS_THRESHOLD = 0.1;
@@ -78,6 +80,7 @@ public class Shooter extends SubsystemBase {
      * button is pressed is even or odd
      *
      */
+    // TODO Figure out why this is broken
     public Command toggleRotations() {
         timesYPressed += 1.0;
         if (timesYPressed % 2 != 0.0) {
@@ -94,8 +97,8 @@ public class Shooter extends SubsystemBase {
     /** Tells the shooter to move a certain amount of rotations and then ends
      *
      */
-    public Command toRotations(double rotations) {
-        return followRotations(()-> rotations).until(this::atTargetRotations);
+    public Command toRotations(double radians) {
+        return followRotations(()-> radians).until(this::atTargetRotations);
     }
 
     /**

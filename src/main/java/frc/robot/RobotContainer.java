@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,12 +17,15 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.sybsystems.elevator.Elevator;
 import frc.robot.sybsystems.elevator.P2025ElevatorIO;
 
+@Logged
 public class RobotContainer {
     // Create the shooter, elevator and xbox controller
     private final Shooter shooter = new Shooter(new P2025ShooterIO(new TalonFX(0)));
     private final Elevator elevator = new Elevator(new P2025ElevatorIO(new TalonFX(1)));
     private final CommandXboxController driverController = new CommandXboxController(Constants.DRIVER_CONTROLLER_PORT);
     private final SlewRateLimiter limit = new SlewRateLimiter(Units.rotationsPerMinuteToRadiansPerSecond(100.0));
+    private boolean state = false;
+
     public RobotContainer() {
         configureBindings();
     }
@@ -38,8 +42,12 @@ public class RobotContainer {
         driverController.x().onTrue(shooter.withVelocity(Units.rotationsPerMinuteToRadiansPerSecond(2500)));
 
         // Button Y -> Toggle between 0 and 50 rotations
-        driverController.y().onTrue(
-                shooter.toggleRotations());
+        driverController.y().onTrue(Commands.either(
+                Commands.runOnce(() ->shooter.toRotations(Units.rotationsToRadians(0)).schedule()),
+                Commands.runOnce(()->shooter.toRotations(Units.rotationsToRadians(50)).schedule()),
+                () -> state
+                ).beforeStarting(() -> state =! state)
+        );
 
         // Right Trigger -> 0-4000 RPM
         // When the trigger is pressed more than the threshold, it first resets the
