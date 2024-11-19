@@ -1,10 +1,12 @@
-package frc.robot.subsystems.shooter;
+package frc.robot.subsystems.elevator;
 
-public class ShooterInputs {
+public class ElevatorInputs {
+
     public double currentVelocity;
     public double currentAppliedVoltage;
-    public double currentPosition;
 
     public double motorTemperature;
     public double currentDraw;
+
+
 }
