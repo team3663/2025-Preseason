@@ -1,11 +1,13 @@
 package frc.robot.subsystems.elevator;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.elevator.ElevatorIO;
 import frc.robot.subsystems.elevator.ElevatorInputs;
 
+@Logged
 public class Elevator extends SubsystemBase {
 
     private static final double POSITION_THRESHOLD = Units.inchesToMeters(0.25);

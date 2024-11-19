@@ -1,14 +1,16 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.DoubleSupplier;
 
+@Logged
 public class Shooter extends SubsystemBase {
     private static final double VELOCITY_THRESHOLD = Units.rotationsPerMinuteToRadiansPerSecond(100.0);
-    private static final double POSITION_THRESHOLD = Units.degreesToRadians(1);
+    private static final double POSITION_THRESHOLD = Units.degreesToRadians(5);
 
     private final ShooterIO io;
     private final ShooterInputs inputs = new ShooterInputs();
@@ -65,35 +67,19 @@ public class Shooter extends SubsystemBase {
         );
     }
 
-    public Command togglePosition(double pos1, double pos2) {
-        return runEnd(
-                () -> {
-                    if (atTargetPosition()) {
-                        if (targetPosition == pos2) {
-                            io.setTargetPosition(pos1);
-                            targetPosition = pos1;
-                        } else {
-                            io.setTargetPosition(pos2);
-                            targetPosition = pos2;
-                        }
-                    } else {
-                        if (targetPosition == pos1) {
-                            io.setTargetPosition(pos1);
-                            targetPosition = pos1;
-                        } else {
-                            io.setTargetPosition(pos2);
-                            targetPosition = pos2;
-                        }
-                    }
-                },
-                io::stop
-        );
-    }
-
     public Command resetPosition() {
         return runOnce(
                 () -> io.resetPosition()
         );
+    }
+
+    public Command goToPosition(double position) {
+        return run(
+                () -> {
+                    io.setTargetPosition(position);
+                    targetPosition = position;
+                }
+        ).until(this::atTargetPosition);
     }
 
     public Command followPosition(DoubleSupplier position) {
