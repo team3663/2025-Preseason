@@ -53,7 +53,6 @@ public class RobotContainer {
         // When the trigger is pressed more than the threshold, it first resets the
         // slew to the current velocity of the motor and then increases or decreases on a
         //slew depending on how far the trigger is pressed
-        // TODO Make this even more smooth
         driverController.rightTrigger(0.05).whileTrue(
                 shooter.followVelocity(() -> limit.calculate(Units.rotationsPerMinuteToRadiansPerSecond(4000) * driverController.getRightTriggerAxis()))
                         .beforeStarting(() -> limit.reset(shooter.getVelocity())));
