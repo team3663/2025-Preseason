@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter;
 
+import java.util.function.DoubleSupplier;
+
 public interface ShooterIO {
     default void updateInputs(ShooterInputs inputs) {
     }
@@ -13,4 +15,8 @@ public interface ShooterIO {
 
     default void setTargetVoltage(double voltage) {
     }
+
+    default void setTargetPosition(double position) {}
+
+    default void resetPosition() {}
 }
