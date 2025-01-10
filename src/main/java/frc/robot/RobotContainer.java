@@ -37,7 +37,7 @@ public class RobotContainer {
         ).beforeStarting(() -> state = !state));
 
         controller.start().onTrue(shooter.resetPosition());
-        controller.rightTrigger(.05).whileTrue(shooter.followVelocity(() -> (controller.getRightTriggerAxis() * Units.rotationsPerMinuteToRadiansPerSecond(4000))));
+        controller.rightTrigger(.005).whileTrue(shooter.followVelocity(() -> (controller.getRightTriggerAxis() * Units.rotationsPerMinuteToRadiansPerSecond(4000))));
         controller.leftTrigger(.005).whileTrue(shooter.followPosition(() -> (controller.getLeftTriggerAxis() * Units.rotationsToRadians(5))));
     }
 
